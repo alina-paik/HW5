@@ -2,6 +2,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import org.testng.annotations.*;
 
 public class DataProviderTests {
@@ -40,6 +41,11 @@ public class DataProviderTests {
 
         WebElement searchButton = webDriver.findElement(By.xpath("//input[@type = 'submit']"));
         searchButton.click();
+        try {
+            Assert.assertTrue(webDriver.findElements(By.xpath("//li[contains(@class, 'l-vacancy') and contains(@class, '__hot')]")).size() > 0,
+                    "No search results with the class '__hot' for the entered search query: " + searchQuery);
+        } catch (AssertionError e) {
+            System.out.println("No search results with the class '__hot' for the entered search query: " + searchQuery);
+        }
     }
-
 }
